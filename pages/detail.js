@@ -9,6 +9,7 @@ import {
    FlatList
 } from 'react-native';
 import immutable from 'immutable';
+import HTMLView from 'react-native-htmlview';
 
 export default class Detail extends PureComponent{
 
@@ -68,6 +69,7 @@ export default class Detail extends PureComponent{
       //marginLeft:(Dimensions.get('window').width - this.state.width)/2
       //keyExtractor返回的是一个string型数据
       //FlatList的data只能是数组，如果使用immutable的话，使用toArray转成数组再遍历
+      //HTMLView可以解析html标签，展示内容
       return(
          <ScrollView class={styles.container}>
             <View style={{display:'flex',flexDirection:'column',alignItems:'center'}}>
@@ -75,7 +77,7 @@ export default class Detail extends PureComponent{
                <Text style={{marginTop: 20, marginBottom: 20}}>{detailInfo.get('title')}</Text>
             </View>
             <View style={styles.listCon}>
-               <Text>主演：</Text>
+               <HTMLView value={'<Text>主演：</Text>'}/>
                <FlatList data={detailInfo.get('casts') && detailInfo.get('casts').toArray()}
                   horizontal={true} 
                   keyExtractor={(item,index)=>{return `${index}`}}
@@ -103,7 +105,10 @@ const styles = StyleSheet.create({
       flex:1   
    },
    castContainer: {
-      marginRight: 10
+      marginRight: 10,
+      width: 100,
+      flex:1,
+      height: 150
    },
    avatarImg: {
       width: 100,
@@ -112,7 +117,8 @@ const styles = StyleSheet.create({
    castName: {
       fontSize: 12,
       color:'#666',
-      textAlign:'center'
+      textAlign:'center',
+      
    },
    listCon: {
       paddingLeft: 10,

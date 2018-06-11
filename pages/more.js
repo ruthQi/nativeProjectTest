@@ -101,7 +101,7 @@ import {
    },
    liContainer: {
       width: 110,
-      height: 150,
+      height: 160,
       //backgroundColor: '#00ffff',
       marginLeft: 10,
       marginBottom: 10
