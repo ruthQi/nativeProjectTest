@@ -6,7 +6,7 @@ import {
    Image,
    Text,
    FlatList,
-   TouchableHighlight 
+   TouchableWithoutFeedback
  } from 'react-native';
 
 export default class DouBan extends PureComponent{
@@ -50,10 +50,18 @@ export default class DouBan extends PureComponent{
       })
    }
    renderHotList = ({item}) => {
-      return (<View style={styles.liContainer}>
-         <Image style={styles.coverImage} source={{uri: `${item.images.small}`}}/>
-         <Text style={styles.itemTitle}>{item.title}</Text>
-      </View>)
+      return (
+      <TouchableWithoutFeedback onPress={()=>{this.goToDetail(item.id)}}>
+         <View style={styles.liContainer} >
+            <Image style={styles.coverImage} source={{uri: `${item.images.small}`}}/>
+            <Text style={styles.itemTitle}>{item.title}</Text>
+         </View>
+      </TouchableWithoutFeedback>)
+   }
+   goToDetail(id){
+      //console.log(id)
+      const { navigate } = this.props.navigation;
+      navigate('Detail',{id})
    }
    goMore(type){
       const { navigate } = this.props.navigation;

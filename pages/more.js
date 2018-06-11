@@ -1,13 +1,11 @@
 import React, {PureComponent} from 'react';
 import {
    StyleSheet,
-   ScrollView,
    View,
    Image,
    Text,
    FlatList,
-   TouchableHighlight,
-   Dimensions
+   TouchableWithoutFeedback
  } from 'react-native';
 
  export default class MoreList extends PureComponent{
@@ -51,11 +49,20 @@ import {
          })
       })
    }
+   goToDetail(id){
+      //console.log(id)
+      const { navigate } = this.props.navigation;
+      navigate('Detail',{id})
+   }
    renderHotList = ({item}) => {
-      return (<View style={styles.liContainer}>
-         <Image style={styles.coverImage} source={{uri: `${item.images.small}`}}/>
-         <Text style={styles.itemTitle}>{item.title}</Text>
-      </View>)
+      return (
+         <TouchableWithoutFeedback onPress={()=>{this.goToDetail(item.id)}}>
+            <View style={styles.liContainer}>
+               <Image style={styles.coverImage} source={{uri: `${item.images.small}`}}/>
+               <Text style={styles.itemTitle}>{item.title}</Text>
+            </View>
+         </TouchableWithoutFeedback>
+      )
    }
    loadMore = () => {
       //alert('00000')
@@ -66,21 +73,21 @@ import {
       }
       this.getData(start)
    }
-    render(){
-       //onEndReachedThreshold:此参数是一个比值而非像素单位。比如，0.5表示距离内容最底部的距离为当前列表可见长度的一半时触发
-       return(
-          <View style={styles.container}>
-             <FlatList style={styles.listContainer} 
-                  numColumns="3"
-                  onEndReached={this.loadMore}
-                  onEndReachedThreshold={0.5}
-                  data={this.state.dataList}
-                  keyExtractor={(item, index)=>{return `${index}`}}
-                  renderItem={this.renderHotList}/>
-          </View>
-         
-       )
-    }
+   render(){
+      //onEndReachedThreshold:此参数是一个比值而非像素单位。比如，0.5表示距离内容最底部的距离为当前列表可见长度的一半时触发
+      return(
+         <View style={styles.container}>
+            <FlatList style={styles.listContainer} 
+               numColumns="3"
+               onEndReached={this.loadMore}
+               onEndReachedThreshold={0.5}
+               data={this.state.dataList}
+               keyExtractor={(item, index)=>{return `${index}`}}
+               renderItem={this.renderHotList}/>
+         </View>
+      
+      )
+   }
  }
 
  const styles = StyleSheet.create({
